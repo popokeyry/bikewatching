@@ -59,6 +59,8 @@ function computeStationTraffic(stations, trips) {
   });
 }
 
+const stationFlow = d3.scaleQuantize().domain([0, 1]).range([0, 0.5, 1]);
+
 map.on('load', async () => {
   // Boston bike lanes
   map.addSource('boston_route', {
@@ -113,11 +115,11 @@ map.on('load', async () => {
     .attr('fill-opacity', 0.6)
     .attr('stroke', 'white')
     .attr('stroke-width', 1)
+    .style('--departure-ratio', d => stationFlow(d.departures / d.totalTraffic))  // 👈 add
     .each(function(d) {
-      d3.select(this)
-        .append('title')
+        d3.select(this).append('title')
         .text(`${d.totalTraffic} trips (${d.departures} departures, ${d.arrivals} arrivals)`);
-    });
+  });
 
   function updateScatterPlot(timeFilter) {
     const filteredTrips = filterTripsbyTime(trips, timeFilter);
@@ -126,9 +128,10 @@ map.on('load', async () => {
     timeFilter === -1 ? radiusScale.range([0, 25]) : radiusScale.range([3, 50]);
 
     circles
-      .data(filteredStations, d => d.short_name)
-      .join('circle')
-      .attr('r', d => radiusScale(d.totalTraffic));
+        .data(filteredStations, d => d.short_name)
+        .join('circle')
+        .attr('r', d => radiusScale(d.totalTraffic))
+        .style('--departure-ratio', d => stationFlow(d.departures / d.totalTraffic));
   }
 
   function updatePositions() {

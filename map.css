@@ -19,4 +19,52 @@
 
 #map svg circle {
   pointer-events: auto;
+  --color-departures: steelblue;
+  --color-arrivals: darkorange;
+  --color: color-mix(
+    in oklch,
+    var(--color-departures) calc(100% * var(--departure-ratio)),
+    var(--color-arrivals)
+  );
+  fill: var(--color);
+}
+
+#time-slider {
+  width: 30em;
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5em;
+  margin-block: 1em;
+  font-size: 0.85em;
+}
+
+.legend > span {
+  font-weight: bold;
+  letter-spacing: 0.05em;
+}
+
+.legend > div {
+  --color-departures: steelblue;
+  --color-arrivals: darkorange;
+  --color: color-mix(
+    in oklch,
+    var(--color-departures) calc(100% * var(--departure-ratio)),
+    var(--color-arrivals)
+  );
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+}
+
+.legend > div::before {
+  content: "";
+  display: inline-block;
+  width: 0.9em;
+  height: 0.9em;
+  border-radius: 50%;
+  background: var(--color);
 }
