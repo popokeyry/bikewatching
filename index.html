@@ -11,10 +11,17 @@
         rel="stylesheet"
     />
     <script src="map.js" type="module"></script>
-    <title>Bikewatching</title>
-  </head>
-  <body>
+    <header>
     <h1>🚴🏼‍♀️ Bikewatching</h1>
+    <label>
+      Filter by time:
+      <input id="time-slider" type="range" min="-1" max="1440" value="-1" />
+      <span>
+        <time id="selected-time"></time>
+        <em id="any-time">(any time)</em>
+      </span>
+    </label>
+  </header>
     <div id="map">
         <svg></svg>
     </div>
